@@ -20,14 +20,16 @@ class ShoppingList extends React.Component {
             {items.map(({ _id: id, name }) => (
               <CSSTransition key={id} timeout={500} classNames="fade">
                 <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={this.onDelete.bind(this, id)}
-                  >
-                    &times;
-                  </Button>
+                  {this.props.isAthenticated && (
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      onClick={this.onDelete.bind(this, id)}
+                    >
+                      &times;
+                    </Button>
+                  )}
 
                   {name}
                 </ListGroupItem>
@@ -41,7 +43,8 @@ class ShoppingList extends React.Component {
 }
 
 const mapSateToProps = state => ({
-  getItem: state.item
+  getItem: state.item,
+  isAthenticated: state.auth.isAthenticated
 });
 export default connect(
   mapSateToProps,

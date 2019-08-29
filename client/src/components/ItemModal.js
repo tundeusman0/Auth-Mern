@@ -36,13 +36,18 @@ class ItemModal extends React.Component {
   render() {
     return (
       <div>
-        <Button
-          color="dark"
-          style={{ marginBottom: '2rem' }}
-          onClick={this.toggle}
-        >
-          Add Item
-        </Button>
+        {this.props.isAthenticated ? (
+          <Button
+            color="dark"
+            style={{ marginBottom: '2rem' }}
+            onClick={this.toggle}
+          >
+            Add Item
+          </Button>
+        ) : (
+          <h4 className="mb-3 ml-4">Login to add Item</h4>
+        )}
+
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add To Shopping List</ModalHeader>
           <ModalBody>
@@ -67,12 +72,15 @@ class ItemModal extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  isAthenticated: state.auth.isAthenticated
+});
 const mapDispatchToProps = dispatch => ({
   addItem: newItem => {
     dispatch(addItem(newItem));
   }
 });
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(ItemModal);

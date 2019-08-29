@@ -1,5 +1,6 @@
 const express = require('express');
 const Item = require('../../models/Item');
+const auth = require('../../middleware/auth');
 
 const router = new express.Router();
 
@@ -16,9 +17,9 @@ router.get('/', async (req, res) => {
 });
 
 //  @route POST api/items
-// @desc create an litem
-// @access Public
-router.post('/', async (req, res) => {
+// @desc create an item
+// @access Private
+router.post('/', auth, async (req, res) => {
   const newItem = new Item(req.body);
   try {
     const response = await newItem.save();
@@ -33,8 +34,8 @@ router.post('/', async (req, res) => {
 
 //  @route DELETE api/items
 // @desc delete an item
-// @access Public
-router.delete('/:id', async (req, res) => {
+// @access Private
+router.delete('/:id', auth, async (req, res) => {
   try {
     const id = req.params.id;
     const response = await Item.findByIdAndDelete(id);
